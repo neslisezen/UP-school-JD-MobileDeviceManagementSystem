@@ -28,7 +28,7 @@ public class MobileDeviceManagement {
 	}
 
 	public void generalMenu() {
-		String brand, model, serialNumber, storage, operatingSystem, password, email;
+		String brand, model, serialNumber, storage, operatingSystem;
 		int choice;
 		String menu = """
 				🌈Mobile Device Management System🌈
@@ -36,55 +36,54 @@ public class MobileDeviceManagement {
 				2: New Phone register
 				3: List my phones
 				4: Recover my phone
-				5: Help
-				6: Exit
+				5: Exit
 				Your choice: """;
 
-		here: do {
+			do {
 
 			System.out.print(menu);
 			choice = input.nextInt();
 			System.out.println("**************************");
 			switch (choice) {
 			case 1 -> {
-				if (phoneManager.registeredPhoneNumber() > 0) {
+				if (phoneManager.registeredPhoneNumber() == 1) {
 					System.out.println("Registration successful");
 					this.phoneMenu();
-				} else
+				}
+				else if(phoneManager.registeredPhoneNumber() > 1) {
+					if (phoneManager.listPhones()) {
+						System.out.print("Please write the serial number of the phone you want to register: ");
+						String serial = input.next();
+						if (phoneManager.isSerialNumberRight(serial)) {
+							phoneSerialNumber = serial;
+							System.out.println("Registration successful");
+							phoneMenu();
+						} else
+							System.out.println("There is no such serial number!");
+					}
+				}
+				else
 					System.out.println("***Please register or recover your phone!!!***");
 			}
 			case 2 -> {
+				input.nextLine();
 				System.out.print("Phone brand: ");
 				brand = input.nextLine();
-				input.next();
 				System.out.print("Phone model: ");
 				model = input.nextLine();
-				input.next();
 				System.out.print("Serial number: ");
-				serialNumber = input.nextLine();
-				input.next();
+				serialNumber = input.next();
 				System.out.print("Storage(GB): ");
-				storage = input.nextLine();
-				input.next();
+				storage = input.next();
 				System.out.print("Operating System: ");
-				operatingSystem = input.nextLine();
-				input.next();
+				operatingSystem = input.next();
 				phoneManager.addPhone(new Phone(brand, model, serialNumber, storage, operatingSystem));
-				System.out.println("Registration successful " + brand + " " + model);
+				System.out.println("Registration successful " + brand + " " + model+"!");
 				phoneSerialNumber = serialNumber;
 				phoneMenu();
 			}
 			case 3 -> {
-				if (phoneManager.listPhones()) {
-					System.out.print("Please write the serial number of the phone you want to register: ");
-					String serial = input.nextLine();
-					if (phoneManager.isSerialNumberRight(serial)) {
-						phoneSerialNumber = serial;
-						System.out.println("Registration successful");
-						phoneMenu();
-					} else
-						System.out.println("There is no such serial number!");
-				}
+				phoneManager.listPhones();
 
 			}
 			case 4 -> {
@@ -93,17 +92,7 @@ public class MobileDeviceManagement {
 					phoneMenu();
 				}
 			}
-			case 5 -> { // spaeter
-				System.out.println("***************HELP*************");
-				System.out.println("""
-						User login is necessary to search Film and add Film.
-						Please login in your account or register yourself.
-						Username is the combination of your first and last name. For example: neslisezen
-						You can also search for usernames. Please choose "List Users".\s""");
-				System.out.println("********************************");
-				continue here;
-			}
-			case 6 -> {
+			case 5 -> {
 				return;
 			}
 
@@ -121,8 +110,8 @@ public class MobileDeviceManagement {
 				1: Contact settings
 				2: Apps
 				3: Storage space
-				4: Phone details
-				5: Back up your phone
+				4: Phone settings
+				5: Back up my phone
 				6: Previous menu
 				7: Exit
 				Your Choice: """;
@@ -147,7 +136,7 @@ public class MobileDeviceManagement {
 			case 4 -> {
 				this.PhoneDetailsMenu();
 			}
-			case 5 -> {// check
+			case 5 -> {
 				fileManager.fileWriter(phoneManager.fileInfos());
 				fileManager.fileWriter(appManager.fileInfos());
 				fileManager.fileWriter(contactManager.fileInfos());
@@ -177,7 +166,7 @@ public class MobileDeviceManagement {
 				6: Exit
 				Your Choice: """;
 
-		here: do {
+		   do {
 
 			System.out.print(userMenu);
 			choice = input.nextInt();
@@ -188,49 +177,39 @@ public class MobileDeviceManagement {
 				contactManager.listContacts();
 			}
 			case 2 -> {
-				System.out.print("*Please write the contact details you want to add*");
+				System.out.println("*Please write the contact details you want to add*");
 				System.out.print("Name of the person: ");
-				name = input.nextLine();
-				input.next();
+				name = input.next();
 				System.out.print("Surname of the person: ");
-				surname = input.nextLine();
-				input.next();
+				surname = input.next();
 				System.out.print("Phone number: ");
-				phoneNumber = input.nextLine();
-				input.next();
+				phoneNumber = input.next();
 				System.out.print("E-mail: ");
-				email = input.nextLine();
-				input.next();
+				email = input.next();
 				contactManager.createContact(new Contact(name, surname, phoneNumber, email));
 			}
 			case 3 -> {
-				System.out.print("Please write the name and surname of the person you want to delete");
-				System.out.print("Name of the person: ");
-				name = input.nextLine();
+				System.out.println("Please write the name and surname of the person you want to delete");
+				System.out.println("Name of the person: ");
+				name = input.next();
 				System.out.print("Surname of the person: ");
-				input.nextLine();
-				surname = input.nextLine();
-				input.next();
+				surname = input.next();
 				contactManager.deleteContact(name, surname);
 			}
 			case 4 -> {
-				System.out.print("Please write the name and surname of the person whose information you want to edit");
+				System.out.println("Please write the name and surname of the person whose information you want to edit");
 				System.out.print("Name of the person: ");
-				name = input.nextLine();
-				input.next();
+				name = input.next();
 				System.out.print("Surname of the person: ");
-				surname = input.nextLine();
-				input.next();
+				surname = input.next();
 				if (!contactManager.listContact(name, surname)) {
-					continue here;
+					continue;
 				}
-				System.out.print("Which info do you want to edit? ");
-				System.out.print("1.Name\n2.Surname\3.Phone Number\n4.E-mail\nPlease choose: ");
+				System.out.println("Which info do you want to edit? ");
+				System.out.print("1.Name\n2.Surname\n3.Phone Number\n4.E-mail\nPlease choose: ");
 				choice = input.nextInt();
-				input.next();
 				System.out.print("Please write the new info: ");
-				String value = input.nextLine();
-				input.next();
+				String value = input.next();
 				contactManager.updateContact(name, surname, choice, value);
 			}
 			case 5 -> {
@@ -267,40 +246,33 @@ public class MobileDeviceManagement {
 				appManager.listApps();
 			}
 			case 2 -> {
-				System.out.print("*Please write the add details you want to add*");
+				System.out.println("*Please write the app details you want to add*");
 				System.out.print("App name: ");
-				name = input.nextLine();
-				input.next();
+				name = input.next();
 				System.out.print("App Version: ");
-				version = input.nextLine();
-				input.next();
+				version = input.next();
 				System.out.print("App size(GB): ");
-				size = input.nextLine();
-				input.next();
+				size = input.next();
 				appManager.addApp(new App(name, version, size));
 			}
 			case 3 -> {
-				System.out.print("Please write the name of the app you want to delete");
+				System.out.println("Please write the name of the app you want to delete");
 				System.out.print("App Name: ");
-				name = input.nextLine();
-				input.next();
+				name = input.next();
 				appManager.deleteApp(name);
 			}
 			case 4 -> {
-				System.out.print("Please write the app whose information you want to edit");
+				System.out.println("Please write the app whose information you want to edit");
 				System.out.print("App Name: ");
-				name = input.nextLine();
-				input.next();
+				name = input.next();
 				if (!appManager.listApp(name)) {
 					continue here;
 				}
-				System.out.print("Which info do you want to edit? ");
-				System.out.print("1.Name\n2.Version\3.Size\nPlease choose: ");
+				System.out.println("Which info do you want to edit? ");
+				System.out.print("1.Name\n2.Version\n3.Size\nPlease choose: ");
 				choice = input.nextInt();
-				input.next();
 				System.out.print("Please write the new info: ");
-				String value = input.nextLine();
-				input.next();
+				String value = input.next();
 				appManager.updateApp(name, choice, value);
 			}
 			case 5 -> {
@@ -315,7 +287,7 @@ public class MobileDeviceManagement {
 	}
 
 	public void PhoneDetailsMenu() {
-		String name;
+		String serialNumber;
 		int choice;
 		String userMenu = """
 				💎 Phone Settings 💎
@@ -323,11 +295,12 @@ public class MobileDeviceManagement {
 				2: Add phone
 				3: Delete phone
 				4: Update phone details
-				5: Previous menu
-				6: Exit
+				5: My all phones
+				6: Previous menu
+				7: Exit
 				Your Choice: """;
 
-		here: do {
+		do {
 
 			System.out.print(userMenu);
 			choice = input.nextInt();
@@ -338,53 +311,48 @@ public class MobileDeviceManagement {
 				phoneManager.listPhone(phoneSerialNumber);
 			}
 			case 2 -> {
-				System.out.print("Please write the details of the phone you want to add");
+				input.nextLine();
+				System.out.println("Please write the details of the phone you want to add");
 				System.out.print("Phone brand: ");
 				String brand = input.nextLine();
-				input.next();
 				System.out.print("Phone model: ");
 				String model = input.nextLine();
-				input.next();
 				System.out.print("Serial number: ");
-				String serialNumber = input.nextLine();
-				input.next();
+				serialNumber = input.next();
 				System.out.print("Storage(GB): ");
-				String storage = input.nextLine();
-				input.next();
+				String storage = input.next();
 				System.out.print("Operating System: ");
-				String operatingSystem = input.nextLine();
-				input.next();
+				String operatingSystem = input.next();
 				phoneManager.addPhone(new Phone(brand, model, serialNumber, storage, operatingSystem));
-
+				exit = true;
 			}
 			case 3 -> {
-				System.out.print("Please write the name of the app you want to delete");
-				System.out.print("App Name: ");
-				name = input.nextLine();
-				input.next();
-				appManager.deleteApp(name);
+				System.out.println("Please write the serial number of the phone you want to delete");
+				System.out.print("Serial Number: ");
+				serialNumber = input.next();
+				appManager.deleteApp(serialNumber);
 			}
 			case 4 -> {
-				System.out.print("Please write the app whose information you want to edit");
-				System.out.print("App Name: ");
-				name = input.nextLine();
-				input.next();
-				if (!appManager.listApp(name)) {
-					continue here;
+				System.out.println("Please write the serial number of the phone whose information you want to edit");
+				System.out.print("Serial Number: ");
+				serialNumber = input.next();
+				if (!phoneManager.listPhone(serialNumber)) {
+					continue;
 				}
-				System.out.print("Which info do you want to edit? ");
-				System.out.print("1.Name\n2.Version\3.Size\nPlease choose: ");
+				System.out.println("Which info do you want to edit? ");
+				System.out.print("1.Brand\n2.Model\n3.Serial Number\n4.Storage\n5.Operating System\nPlease choose: ");
 				choice = input.nextInt();
-				input.next();
 				System.out.print("Please write the new info: ");
-				String value = input.nextLine();
-				input.next();
-				appManager.updateApp(name, choice, value);
+				String value = input.next();
+				phoneManager.updatePhone(serialNumber, choice, value);
 			}
 			case 5 -> {
-				return;
+				phoneManager.listPhones();
 			}
 			case 6 -> {
+				return;
+			}
+			case 7 -> {
 				exit = true;
 			}
 			}

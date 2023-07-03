@@ -1,0 +1,3 @@
+Phone,Iphone,14 Pro Max,123456789,256,IOS,
+App,Instagram,4.7.8,48,
+Contact,Yaren,Bul,yarenbull@gmail.com,+90123456789,Contact,Nesli,Sezen,+49123456789,neslihansezen9@gmail.com,

@@ -58,7 +58,7 @@ public class Phone {
 				+ (model != null ? "model:" + model + ", " : "")
 				+ (serialNumber != null ? "serialNumber:" + serialNumber + ", " : "")
 				+ (storage != null ? "storage:" + storage + ", " : "")
-				+ (operatingSystem != null ? "operatingSystem:" + operatingSystem : "") + "]";
+				+ (operatingSystem != null ? "operatingSystem:" + operatingSystem : "");
 	}
 
 }

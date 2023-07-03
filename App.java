@@ -30,7 +30,8 @@ public class App {
 	}
 
 	double getSize() {
-		return Double.valueOf(size);
+		Double aDouble = Double.parseDouble(size);
+		return aDouble;
 	}
 
 	@Override
@@ -54,7 +55,7 @@ public class App {
 	@Override
 	public String toString() {
 		return "App Info: " + (name != null ? "Name: " + name + ", " : "")
-				+ (version != null ? " version: " + version + ", " : "") + (size != null ? " size: " + size : "") + "]";
+				+ (version != null ? " version: " + version + ", " : "") + (size != null ? " size: " + size : "");
 	}
 	public String fileString() {
 		return ("App," + name + ","

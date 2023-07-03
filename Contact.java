@@ -42,8 +42,8 @@ public class Contact {
 	@Override
 	public String toString() {
 		return "Person Info: " + "First name:" + firstName + ", "
-				+ " last name:" + lastName
-				+ " phone number:" + phoneNumber
+				+ " last name:" + lastName+ ", "
+				+ " phone number:" + phoneNumber+ ", "
 				+ " email:" + email;
 	}
 	public String fileString() {

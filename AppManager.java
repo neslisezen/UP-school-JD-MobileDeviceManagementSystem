@@ -15,7 +15,7 @@ public class AppManager {
 	public void addApp(App app) {
 		try {
 			if (appList.putIfAbsent(app.getName(), app) == null)
-				System.out.println("App is succussfully added.");
+				System.out.println("App is successfully added.");
 			else
 				throw new existingApp("This app already exists!");
 		} catch (existingApp e) {
@@ -27,7 +27,7 @@ public class AppManager {
 	public void deleteApp(String appName) {
 		try {
 			if (appList.remove(appName) != null)
-				System.out.println("Contact is succussfully deleted.");
+				System.out.println("Contact is successfully deleted.");
 			else
 				throw new noApp("There is no such app!");
 		} catch (noApp e) {
@@ -85,15 +85,15 @@ public class AppManager {
 
 	public double sizeOfApps() {
 		double size = 0.0;
-		if (null != appList && !appList.isEmpty()) {
+		if (appList != null  && !appList.isEmpty()) {
 		for (App app : appList.values()) {
-			size += app.getSize();
+			size = size + app.getSize();
 		}}
 		return size;
 	}
 	public String fileInfos() {
-		String file = null;
-		if (appList.isEmpty() == true) {
+		String file = "";
+		if (!appList.isEmpty()) {
 			for (App app : appList.values()) {
 				file += app.fileString();
 			}}

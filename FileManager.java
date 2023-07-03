@@ -19,11 +19,12 @@ public class FileManager {
 
 			FileWriter fileWriter = new FileWriter(file, true);
 			BufferedWriter bWriter = new BufferedWriter(fileWriter);
-			if (backupString == null) {
+			if (backupString == null || backupString.isEmpty()) {
 				bWriter.close();
 				return false;
 			}
 			bWriter.write(backupString);
+			bWriter.write(System.lineSeparator());
 			bWriter.close();
 			return true;
 		} catch (Exception e) {

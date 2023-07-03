@@ -89,7 +89,7 @@ public class ContactManager {
 	}
 
 	public String fileInfos() {
-		String file = null;
+		String file = "";
 		if (contactList.isEmpty() == false) {
 			for (Contact contact : contactList.values()) {
 				file += contact.fileString();

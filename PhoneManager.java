@@ -67,7 +67,7 @@ public class PhoneManager {
 		if (phoneList.isEmpty() == true)
 			throw new noPhone("There is no phone registered.");			
 		for (Phone phone : phoneList.values()) {
-			phone.getPhoneInfo();
+			System.out.println(phone.getPhoneInfo());
 		}
 		return true;
 		}
@@ -98,8 +98,8 @@ public class PhoneManager {
 		}
 	}
 	public String fileInfos() {
-		String file = null;
-		if (phoneList.isEmpty() == true) {
+		String file = "";
+		if (phoneList.isEmpty() != true) {
 			for (Phone phone : phoneList.values()) {
 				file += phone.fileString();
 			}}
